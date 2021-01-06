@@ -97,11 +97,11 @@ defmodule Bamboo.PostmarkAdapter do
     end))
   end
 
-  defp maybe_put_template_params(params, %{private:
-    %{template_id: template_name, template_model: template_model}}) do
+  defp maybe_put_template_params(params, %{private: data}) do
     params
-    |> Map.put(:"TemplateId", template_name)
-    |> Map.put(:"TemplateModel", template_model)
+    |> Map.put(:"TemplateId", Map.get(data, :template_id, nil))
+    |> Map.put(:"TemplateAlias", Map.get(data, :template_alias, nil))
+    |> Map.put(:"TemplateModel", Map.get(data, :template_model, nil))
     |> Map.put(:"InlineCss", true)
   end
 
@@ -184,6 +184,7 @@ defmodule Bamboo.PostmarkAdapter do
   end
 
   defp api_path(%{private: %{template_id: _}}), do: @send_email_template_path
+  defp api_path(%{private: %{template_alias: _}}), do: @send_email_template_path
   defp api_path(_), do: @send_email_path
 
   defp base_uri do

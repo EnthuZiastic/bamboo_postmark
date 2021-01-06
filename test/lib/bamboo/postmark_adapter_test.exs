@@ -127,7 +127,7 @@ defmodule Bamboo.PostmarkAdapterTest do
   end
 
   test "deliver/2 sends the to the right url for templates" do
-    new_email() |> PostmarkHelper.template("hello") |> PostmarkAdapter.deliver(@config)
+    new_email() |> PostmarkHelper.template(123) |> PostmarkAdapter.deliver(@config)
 
     assert_receive {:fake_postmark, %{request_path: request_path}}
 
@@ -172,18 +172,18 @@ defmodule Bamboo.PostmarkAdapterTest do
   end
 
   test "deliver/2 puts template name and empty content" do
-    email = PostmarkHelper.template(new_email(), "hello")
+    email = PostmarkHelper.template(new_email(), 123)
 
     PostmarkAdapter.deliver(email, @config)
 
     assert_receive {:fake_postmark, %{params: %{"TemplateId" => template_id,
        "TemplateModel" => template_model}}}
-    assert template_id == "hello"
+    assert template_id == 123
     assert template_model == %{}
   end
 
   test "deliver/2 puts template name and content" do
-    email = PostmarkHelper.template(new_email(), "hello", [
+    email = PostmarkHelper.template(new_email(), 123, [
       %{name: "example name", content: "example content"}
     ])
 
@@ -191,7 +191,7 @@ defmodule Bamboo.PostmarkAdapterTest do
 
     assert_receive {:fake_postmark, %{params: %{"TemplateId" => template_id,
        "TemplateModel" => template_model}}}
-    assert template_id == "hello"
+    assert template_id == 123
     assert template_model == [%{"content" => "example content",
       "name" => "example name"}]
   end
@@ -207,14 +207,14 @@ defmodule Bamboo.PostmarkAdapterTest do
   test "deliver/2 puts tracking params" do
     email =
       new_email()
-      |> PostmarkHelper.template("hello")
+      |> PostmarkHelper.template(123)
       |> PostmarkHelper.put_param("TrackOpens", true)
       |> PostmarkHelper.put_param("TrackLinks", "HtmlOnly")
 
     PostmarkAdapter.deliver(email, @config)
 
     assert_receive {:fake_postmark, %{params: %{
-      "TrackLinks" => "HtmlOnly", "TrackOpens" => true, "TemplateId" => "hello"}
+      "TrackLinks" => "HtmlOnly", "TrackOpens" => true, "TemplateId" => 123}
     }}
   end
 
@@ -238,7 +238,7 @@ defmodule Bamboo.PostmarkAdapterTest do
   end
 
   test "deliver/2 puts inline attachments" do
-    email = PostmarkHelper.template(new_email(), "hello", [
+    email = PostmarkHelper.template(new_email(), 123, [
       %{name: "example name", content: "example content <img src=\"my-attachment\" />"}
     ])
     |> Email.put_attachment(Path.join(__DIR__, "../../support/attachment.txt"), content_id: "my-attachment")
