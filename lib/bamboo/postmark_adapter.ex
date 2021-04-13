@@ -101,6 +101,7 @@ defmodule Bamboo.PostmarkAdapter do
     params
     |> Map.put(:"TemplateId", Map.get(data, :template_id, nil))
     |> Map.put(:"TemplateAlias", Map.get(data, :template_alias, nil))
+    |> Map.put(:"MessageStream", Map.get(data, :message_stream, nil))
     |> Map.put(:"TemplateModel", Map.get(data, :template_model, nil))
     |> Map.put(:"InlineCss", true)
   end
