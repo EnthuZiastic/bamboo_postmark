@@ -26,12 +26,13 @@ defmodule BambooPostmark.Mixfile do
 
   defp deps do
     [
-      {:bamboo, ">= 2.0.0"},
-      {:hackney, ">= 1.6.5"},
-      {:poison, ">= 1.5.0", only: :test},
-      {:plug, "~> 1.0"},
-      {:plug_cowboy, "~> 1.0", only: [:test, :dev]},
-      {:ex_doc, "> 0.0.0", only: :dev, runtime: false}
+      {:bamboo, ">= 2.5.0"},
+      {:hackney, ">= 1.25.0", override: true},
+      {:poison, ">= 6.0.0", only: :test},
+      {:plug, "~> 1.18.1"},
+      {:plug_cowboy, "~> 2.7.4", only: [:test, :dev]},
+      {:ex_doc, "> 0.0.0", only: :dev, runtime: false},
+      {:credo, "~> 1.7.12", only: [:dev, :test], runtime: false}
     ]
   end
 

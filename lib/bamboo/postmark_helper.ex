@@ -43,7 +43,8 @@ defmodule Bamboo.PostmarkHelper do
     |> Email.put_private(:template_model, template_model)
   end
 
-  def template(email, template_alias, template_model, message_stream) when is_binary(template_alias) do
+  def template(email, template_alias, template_model, message_stream)
+      when is_binary(template_alias) do
     email
     |> Email.put_private(:template_alias, template_alias)
     |> Email.put_private(:message_stream, message_stream)
@@ -70,6 +71,7 @@ defmodule Bamboo.PostmarkHelper do
   def put_param(%Email{private: %{message_params: _}} = email, key, value) do
     put_in(email.private[:message_params][key], value)
   end
+
   def put_param(email, key, value) do
     email
     |> Email.put_private(:message_params, %{})
